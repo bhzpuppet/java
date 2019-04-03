@@ -8,7 +8,6 @@ import java.time.temporal.ChronoUnit;
 public class Track {
 	private Point[] aPoint = new Point[1000];
 	private int numberOfPoint = 0;
-	private int currentIndex = 0;
 	public Track () {
 		
 	}
@@ -16,7 +15,6 @@ public class Track {
 		// Çå¿ÕÊý¾Ý
 		//aPoint[0] = null;  //????????????????????????
 		numberOfPoint = 0;
-		currentIndex = 0;
 		File file = new File(f);
 		Scanner input = new Scanner(file);
 		String header = input.nextLine();
@@ -32,16 +30,14 @@ public class Track {
 		}
 	}
 	public void add(Point p) {
-		
-		aPoint[currentIndex] = p;
-		currentIndex ++;
+		aPoint[numberOfPoint] = p;
 		numberOfPoint++;
 	}
 	public int size() {
 		return numberOfPoint;
 	}
 	public Point get(int index) throws GPSException {
-		if (index>3 || index <0) {
+		if (index > numberOfPoint || index <0) {
 			throw new GPSException ("Index of point out of range");
 		}
 		if (aPoint[index]==null) {
