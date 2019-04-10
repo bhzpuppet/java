@@ -8,7 +8,6 @@ public class TrackInfo {
 		}
 		else {
 			Track t = new Track();
-			
 			try {
 				t.readFile("../data/"+args[0]);
 				System.out.println(t.size()+" points in track");
@@ -16,12 +15,17 @@ public class TrackInfo {
 				System.out.println("Highest point is (" + String.format("%.5f", t.highestPoint().getLongitude()) + ", " + String.format("%.5f", t.highestPoint().getLatitude()) +"), " + t.highestPoint().getElevation() +" m");
 				System.out.println("Total distance = " + String.format("%.3f", t.totalDistance()/1000) + " km");
 				System.out.println("Average speed = " + String.format("%.3f", t.averageSpeed ()) + " m/s");
+				t.writeKML("Path.kml");
 			} 
 			catch (FileNotFoundException e) {
 				System.out.println(e.toString());
 				System.exit(0);
 			}
 			catch (GPSException e) {
+				System.out.println(e.toString());
+				System.exit(0);
+			}
+			catch (java.io.IOException e) {
 				System.out.println(e.toString());
 				System.exit(0);
 			}

@@ -6,14 +6,16 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class Track {
-	private Point[] aPoint = new Point[1000];
+	private Point[] aPoint = new Point[200];
 	private int numberOfPoint = 0;
 	public Track () {
 		
 	}
 	public void readFile (String f) throws FileNotFoundException, GPSException {
 		// Çå¿ÕÊý¾Ý
-		//aPoint[0] = null;  //????????????????????????
+		for (int i = 0; i<200; i++) {
+			aPoint[i] = null;
+		}
 		numberOfPoint = 0;
 		File file = new File(f);
 		Scanner input = new Scanner(file);
@@ -24,10 +26,32 @@ public class Track {
 			if (p.length != 4) {
 				throw new GPSException("bad data");
 			}
-//			ZonedDateTime timeStamp = ZonedDateTime.parse(p[0]);
+//			Why use valueof
 			Point p0 = new Point(ZonedDateTime.parse(p[0]), Double.valueOf(p[1]), Double.valueOf(p[2]), Double.valueOf(p[3]));
 			this.add(p0);
 		}
+	}
+	public void writeKML (String f) throws java.io.IOException, GPSException {
+		java.io.File file = new File (f);
+		try (
+			java.io.PrintWriter output = new java.io.PrintWriter (file);
+		){
+			
+			output.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+			output.println("<kml><Document>");
+			output.println("<name>Paths</name>");
+			output.println("<description>path in leeds</description> <Style id=\"yellowLineGreenPoly\">");
+			output.println("<LineStyle><color>7f00ffff</color><width>4</width></LineStyle>");
+			output.println("<PolyStyle><color>7f00ff00</color></PolyStyle> </Style> <Placemark>");
+			output.println("<styleUrl>#yellowLineGreenPoly</styleUrl>");
+			output.println("<LineString> <coordinates> ");
+			for (int i = 0; i < numberOfPoint; i++){
+				output.println(aPoint[i].getLongitude()+","+ aPoint[i].getLatitude()+","+aPoint[i].getElevation());
+			}
+			output.println("</coordinates></LineString></Placemark></Document></kml>");
+			
+		}
+		
 	}
 	public void add(Point p) {
 		aPoint[numberOfPoint] = p;
