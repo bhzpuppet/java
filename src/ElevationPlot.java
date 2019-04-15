@@ -34,6 +34,7 @@ public class Fx extends Application {
       XYChart.Series series = new XYChart.Series(); 
       series.setName("Walk.csv"); 
       
+	  //Setting data
       series.getData().add(new XYChart.Data(0, t.get(0).getElevation()));
 	  for(int i = 1; i < t.size(); i = i+1) {
 		  double dis = 0;

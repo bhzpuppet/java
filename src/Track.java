@@ -12,13 +12,15 @@ public class Track {
 		
 	}
 	public void readFile (String f) throws FileNotFoundException, GPSException {
-		// Çå¿ÕÊý¾Ý
+		// clear data
 		for (int i = 0; i<200; i++) {
 			aPoint[i] = null;
 		}
 		numberOfPoint = 0;
+		// readfile
 		File file = new File(f);
 		Scanner input = new Scanner(file);
+		// delete first line
 		String header = input.nextLine();
 		while (input.hasNext()) {
 			String s = input.nextLine();
@@ -33,6 +35,7 @@ public class Track {
 	}
 	public void writeKML (String f) throws java.io.IOException, GPSException {
 		java.io.File file = new File (f);
+		// write KML file
 		try (
 			java.io.PrintWriter output = new java.io.PrintWriter (file);
 		){
@@ -61,6 +64,7 @@ public class Track {
 		return numberOfPoint;
 	}
 	public Point get(int index) throws GPSException {
+		// Index of point out of range
 		if (index > numberOfPoint || index <0) {
 			throw new GPSException ("Index of point out of range");
 		}
@@ -70,7 +74,7 @@ public class Track {
 		return aPoint[index];
 	}
 	public Point lowestPoint () throws GPSException {
-		if (numberOfPoint < 1) {
+		if (numberOfPoint < 1) {  //exception
 			throw new GPSException ("no enough points");
 		}
 		ZonedDateTime t1 = ZonedDateTime.parse("2016-02-17T09:52:39Z");
@@ -96,17 +100,18 @@ public class Track {
 		return max;
 	}
 	public double totalDistance () throws GPSException {
-		if (numberOfPoint < 2) {
+		if (numberOfPoint < 2) { //exception
 			throw new GPSException ("no enough points");
 		}
 		double totaldistance = 0;
+		// add each distance of two adjacent points
 		for (int x=0; x < numberOfPoint-1; x++) {
 			totaldistance = totaldistance + Point.greatCircleDistance(aPoint[x], aPoint[x+1]);
 		}
 		return totaldistance;
 	}
 	public double averageSpeed () throws GPSException {
-		if (numberOfPoint < 2) {
+		if (numberOfPoint < 2) { //exception
 			throw new GPSException ("no enough points");
 		}
 		double seconds = ChronoUnit.SECONDS.between(aPoint[0].getTime(), aPoint[numberOfPoint-1].getTime());

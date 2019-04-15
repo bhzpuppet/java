@@ -48,6 +48,7 @@ public class Point {
   }
   // TODO: Define a toString() method that meets requirements
   public String toString() {
+	  // retain 5 bits
 	  double round_Longitude= (double)Math.round(Longitude*100000)/100000;
 	  double round_Latitude = (double)Math.round(Latitude*100000)/100000;
 	  return "("+round_Longitude+", "+round_Latitude+"), "+ Elevation +" m";
