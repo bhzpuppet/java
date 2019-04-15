@@ -9,14 +9,14 @@ import javafx.scene.chart.XYChart;
 
          
 
-public class Fx extends Application { 
+public class ElevationPlot extends Application { 
 
    @Override 
 
    public void start(Stage stage) throws FileNotFoundException, GPSException{
 	  //read data
 	   Track t = new Track();
-	  t.readFile("Walk.csv");
+	  t.readFile("../data/walk.csv");
 	  
       //Defining the x axis             
       NumberAxis xAxis = new NumberAxis(0, 2000, 100); 
